@@ -1,6 +1,4 @@
 import csv
-from dataclasses import field
-import readline
 import sys
 from datetime import datetime, timedelta
 import os
@@ -64,7 +62,6 @@ def cal_total(csv_list):
 try:
     lists_from_csv, headers = open_file(sys.argv[1])
     time = data_manipulation(lists_from_csv)
-    print(time)
     write_file(sys.argv[2], time, headers)
 except(IndexError):
     sys.exit("Please input a csv file in the format: $python3 solution.py sample.csv output.csv ")
