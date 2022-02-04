@@ -1,6 +1,6 @@
-===========================================
+
 Emalee Holloway's Truss Interview Solution
-===========================================
+
 
 Question: https://github.com/trussworks/truss-interview/blob/main/CSV_README.md
 
