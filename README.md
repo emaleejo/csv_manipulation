@@ -4,7 +4,7 @@ Emalee Holloway's Truss Interview Solution
 
 Question: https://github.com/trussworks/truss-interview/blob/main/CSV_README.md
 
-How to Install:
+How to Install and Run:
 
 Prerequisites:
 - python 3.x.x
