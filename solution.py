@@ -33,24 +33,11 @@ def data_manipulation(csv_list):
         dt = datetime.strptime(row['Timestamp'], '%m/%d/%y %I:%M:%S %p') + timedelta(hours=3)
         row['Timestamp'] = dt.isoformat('T')
         row['FullName'] = row['FullName'].upper()
-        row['ZIP'] = zero_zip(row['ZIP'])
+        row['ZIP'] = (row['ZIP'].rjust(5, '0'))
         row['BarDuration'] = format_time_to_seconds(row['BarDuration'])
         row['FooDuration'] = format_time_to_seconds(row['FooDuration'])
         row['TotalDuration'] = int(row['BarDuration']) + int(row['FooDuration'])
     return csv_list
-
-
-def zero_zip(zipcode):
-    num = 5 - len(zipcode)
-    if num == 1:
-        zipcode = '0' + str(zipcode)
-    elif num == 2:
-        zipcode = '00' + str(zipcode)
-    elif num == 3:
-        zipcode = '000' + str(zipcode)
-    elif num == 4:
-        zipcode = '0000' + str(zipcode)
-    return zipcode
 
         
 def format_time_to_seconds(value):
