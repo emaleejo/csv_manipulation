@@ -25,13 +25,18 @@ def write_file(file_name, lists_from_csv, headers):
     
 
 def data_manipulation(csv_list):
+    """ Converts Timestamp and adds 3 hours (Pacfic to Eastern)
+    caps fullname,
+    zeros added to < 5 zipcode lengths
+    converts duration time to seconds"""
     for row in csv_list:
-        dt = datetime.strptime(row['Timestamp'], '%m/%d/%y %I:%M:%S %p') + timedelta(hours=4)
+        dt = datetime.strptime(row['Timestamp'], '%m/%d/%y %I:%M:%S %p') + timedelta(hours=3)
         row['Timestamp'] = dt.isoformat('T')
         row['FullName'] = row['FullName'].upper()
         row['ZIP'] = zero_zip(row['ZIP'])
-        row['BarDuration'] = format_time(row['BarDuration'])
-        row['FooDuration'] = format_time(row['FooDuration'])
+        row['BarDuration'] = format_time_to_seconds(row['BarDuration'])
+        row['FooDuration'] = format_time_to_seconds(row['FooDuration'])
+        row['TotalDuration'] = int(row['BarDuration']) + int(row['FooDuration'])
     return csv_list
 
 
@@ -48,20 +53,14 @@ def zero_zip(zipcode):
     return zipcode
 
         
-def format_time(value):
-    a = value.replace('.',":").split(':')
-    return str((int(a[0]) * 60 * 60) + (int(a[1]) * 60) + int(a[2]))
-
-
-def cal_total(csv_list):
-    for row in csv_list:
-        row['TotalDuration'] = str(int(row['FooDuration']) + int(row['BarDuration']))
-    return csv_list
+def format_time_to_seconds(value):
+    time = value.replace('.',":").split(':')
+    return str((int(time[0]) * 60 * 60) + (int(time[1]) * 60) + int(time[2]))
 
 
 try:
     lists_from_csv, headers = open_file(sys.argv[1])
-    time = data_manipulation(lists_from_csv)
-    write_file(sys.argv[2], time, headers)
+    data = data_manipulation(lists_from_csv)
+    write_file(sys.argv[2], data, headers)
 except(IndexError):
     sys.exit("Please input a csv file in the format: $python3 solution.py sample.csv output.csv ")
